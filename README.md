@@ -57,4 +57,4 @@ The MQTT Subscribe device driver provides multiple configuration options such as
 - Debug to Console
 - Debug Label
 
-For detailed information on these options, please refer to the main [documentation](https://wiki.bitpool.com/niagara-connectors/niagara-mqtt-driver-module) or join us on our [discord](https://discord.gg/77RzVzdqfA)
+For detailed information on these options, please refer to the main [documentation]() or join us on our [discord](https://discord.gg/77RzVzdqfA)
