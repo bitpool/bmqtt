@@ -1,0 +1,16 @@
+<!--
+  Copyright 2019 bitpool, All Rights Reserved.
+ -->
+<permissions>
+  <niagara-permission-groups type="all">
+    <req-permission>
+      <name>NETWORK_COMMUNICATION</name>
+      <purposeKey>This module needs to communicate with devices using http or https.</purposeKey>
+      <parameters>
+        <parameter name="hosts" value="*" />
+        <parameter name="ports" value="*" />
+        <parameter name="type" value="all" />
+      </parameters>
+    </req-permission>
+  </niagara-permission-groups>
+</permissions>

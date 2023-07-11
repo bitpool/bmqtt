@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="eclipse.paho.client.mqttv3" type="repository">
+    <properties maven-id="org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.5/org.eclipse.paho.client.mqttv3-1.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,33 @@
+<!--
+  Copyright 2019 bitpool, All Rights Reserved.
+-->
+<?xml version="1.0" encoding="UTF-8"?>
+<bajaObjectGraph version="1.0">
+   <p m="b=baja" t="b:Folder">
+      <p m="b=baja" t="b:UnrestrictedFolder" n="Network">
+         <p n="MqttNetwork" m="x=bMqtt" t="x:MqttNetwork" />
+      </p>
+      <p m="b=baja" t="b:UnrestrictedFolder" n="Device">
+         <p n="MqttPublish" m="x=bMqtt" t="x:MqttPubDevice" />
+         <p n="MqttSubscribe" m="x=bMqtt" t="x:MqttSubDevice" />
+      </p>
+      <p m="b=baja" t="b:UnrestrictedFolder" n="Folder">
+         <p n="DeviceFolder" m="x=bMqtt" t="x:MqttDeviceFolder" />
+         <p n="PointFolder" m="x=bMqtt" t="x:MqttPointFolder" />
+      </p>
+      <p m="b=baja" t="b:UnrestrictedFolder" n="Point">
+         <p n="String" m="x=bMqtt" t="x:MqttStringWritable">
+            <p n="proxyExt" t="x:MqttProxyExt" />
+         </p>
+         <p n="Numeric" m="x=bMqtt" t="x:MqttNumericWritable">
+            <p n="proxyExt" t="x:MqttProxyExt" />
+         </p>
+         <p n="Boolean" m="x=bMqtt" t="x:MqttBooleanWritable">
+            <p n="proxyExt" t="x:MqttProxyExt" />
+         </p>
+         <p n="Enumeration" m="x=bMqtt" t="x:MqttEnumWritable">
+            <p n="proxyExt" t="x:MqttProxyExt" />
+         </p>
+      </p>
+   </p>
+</bajaObjectGraph>

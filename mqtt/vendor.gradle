@@ -1,0 +1,9 @@
+/*
+ * Copyright 2021 BP, All Rights Reserved.
+ */
+/* Vendor Configuration File */
+group = 'BP'
+
+def moduleVersion = '001.002.002'
+def moduleVersionPatch = [:]
+version = "${moduleVersion}${moduleVersionPatch.get(project.name, '')}"

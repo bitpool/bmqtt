@@ -1,0 +1,11 @@
+<!--
+  Copyright 2019 bitpool, All Rights Reserved.
+ -->
+<!-- Types -->
+<types>
+
+<!-- test.com.bitpool.mqtt -->
+<!--<type name="MqttNMessageTest" class="test.com.bitpool.mqtt.BMqttNMessageTest" />-->
+<!--<type name="MqttPointDiscoveryExtTest" class="test.com.bitpool.mqtt.BMqttPointDiscoveryExtTest" />-->
+
+</types>

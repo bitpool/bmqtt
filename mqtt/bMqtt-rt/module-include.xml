@@ -1,0 +1,59 @@
+<!-- Copyright 2019 bitpool, All Rights Reserved. -->
+<!-- Types -->
+<types>
+  <!-- com.bitpool.mqtt -->
+  <!--com.bitpool.mqtt-->
+  <!---->
+<!--  <type class="BMqttNetwork" name="MqttNetwork"/>-->
+<!--  <type class="BMqttPubDevice" name="MqttPubDevice"/>-->
+<!--  <type class="BMqttSubDevice" name="MqttSubDevice"/>-->
+<!--  <type class="BMqttDeviceFolder" name="MqttDeviceFolder"/>-->
+<!--  <type class="BMqttOutputFormat" name="MqttOutputFormat"/>-->
+<!--  <type class="BMqttConnectionType" name="MqttConnectionType"/>-->
+<!--  <type class="BMqttAutoDiscover" name="MqttAutoDiscover"/>-->
+<!--  <type class="BMqttOutputType" name="MqttOutputType"/>-->
+<!--  <type class="BMqttInputType" name="MqttInputType"/>-->
+<!--  <type class="BMqttPriorityType" name="MqttPriorityType"/>-->
+  <!-- com.bitpool.mqtt.point -->
+  <!--com.bitpool.mqtt.point-->
+<!--  <type class="BMqttPointDeviceExt" name="MqttPointDeviceExt"/>-->
+<!--  <type class="BMqttProxyExt" name="MqttProxyExt"/>-->
+<!--  <type class="BMqttPointDiscoveryPreferences" name="MqttPointDiscoveryPreferences"/>-->
+<!--  <type class="BMqttPointDiscoveryLeaf" name="MqttPointDiscoveryLeaf"/>-->
+<!--  <type class="BMqttStringPoint" name="MqttStringPoint"/>-->
+<!--  <type class="BMqttPointFolder" name="MqttPointFolder"/>-->
+<!--  <type class="BMqttNumericPoint" name="MqttNumericPoint"/>-->
+<!--  <type class="BMqttBooleanPoint" name="MqttBooleanPoint"/>-->
+<!--  <type class="BMqttStringProxyExt" name="MqttStringProxyExt"/>-->
+<!--  <type class="BMqttNumericWritable" name="MqttNumericWritable"/>-->
+<!--  <type class="BMqttBooleanWritable" name="MqttBooleanWritable"/>-->
+<!--  <type class="BMqttStringWritable" name="MqttStringWritable"/>-->
+<!--  <type class="BMqttEnumWritable" name="MqttEnumWritable"/>-->
+  <!--com.0-->
+  <type class="com.0.BMqttAutoDiscover" name="MqttAutoDiscover"/>
+  <!--com.bitpool.mqtt-->
+<!--  <type class="com.bitpool.mqtt.BMqttConnectionType" name="MqttConnectionType"/>-->
+  <type class="com.bitpool.mqtt.BMqttDeviceFolder" name="MqttDeviceFolder"/>
+  <type class="com.bitpool.mqtt.BMqttInputType" name="MqttInputType"/>
+  <type class="com.bitpool.mqtt.BMqttNetwork" name="MqttNetwork"/>
+  <type class="com.bitpool.mqtt.BMqttOutputFormat" name="MqttOutputFormat"/>
+  <type class="com.bitpool.mqtt.BMqttOutputType" name="MqttOutputType"/>
+  <type class="com.bitpool.mqtt.BMqttPriorityType" name="MqttPriorityType"/>
+  <type class="com.bitpool.mqtt.BMqttPubDevice" name="MqttPubDevice"/>
+  <type class="com.bitpool.mqtt.BMqttSubDevice" name="MqttSubDevice"/>
+  <type class="com.bitpool.mqtt.BMqttAutoDiscover" name="MqttAutoDiscover"/>
+  <type class="com.bitpool.mqtt.BMqttConnectionType" name="MqttConnectionType"/>
+  <type class="com.bitpool.mqtt.point.BMqttBooleanPoint" name="MqttBooleanPoint"/>
+  <type class="com.bitpool.mqtt.point.BMqttBooleanWritable" name="MqttBooleanWritable"/>
+  <type class="com.bitpool.mqtt.point.BMqttEnumWritable" name="MqttEnumWritable"/>
+  <type class="com.bitpool.mqtt.point.BMqttNumericPoint" name="MqttNumericPoint"/>
+  <type class="com.bitpool.mqtt.point.BMqttNumericWritable" name="MqttNumericWritable"/>
+  <type class="com.bitpool.mqtt.point.BMqttPointDeviceExt" name="MqttPointDeviceExt"/>
+  <type class="com.bitpool.mqtt.point.BMqttPointDiscoveryLeaf" name="MqttPointDiscoveryLeaf"/>
+  <type class="com.bitpool.mqtt.point.BMqttPointDiscoveryPreferences" name="MqttPointDiscoveryPreferences"/>
+  <type class="com.bitpool.mqtt.point.BMqttPointFolder" name="MqttPointFolder"/>
+  <type class="com.bitpool.mqtt.point.BMqttProxyExt" name="MqttProxyExt"/>
+  <type class="com.bitpool.mqtt.point.BMqttStringPoint" name="MqttStringPoint"/>
+  <type class="com.bitpool.mqtt.point.BMqttStringProxyExt" name="MqttStringProxyExt"/>
+  <type class="com.bitpool.mqtt.point.BMqttStringWritable" name="MqttStringWritable"/>
+</types>

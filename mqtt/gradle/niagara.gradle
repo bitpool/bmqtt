@@ -1,0 +1,323 @@
+///*
+//  Copyright 2021 BP, All Rights Reserved.
+// */
+//apply plugin: 'java'
+//apply plugin: 'com.tridium.niagara'
+//apply plugin: 'com.tridium.niagara-module'
+//apply plugin: 'com.tridium.niagara-rjs'
+//
+//
+//repositories {
+//  flatDir {
+//    name = "External JARs"
+//    dirs "${rootProject.ext.niagara_home}/bin/ext"
+//  }
+//  flatDir {
+//    name = "Nigara Modules"
+//    dirs "${rootProject.ext.niagara_home}/modules"
+//  }
+//  mavenCentral()
+//}
+//
+//dependencies {
+//  niagaraModuleTestCompile "Tridium:test-wb:4.0.0"
+//}
+//
+//test {
+//  useTestNG()
+//}
+//
+//
+//javadoc.configure {
+//  failOnError false
+//  options.tags 'creation:a:Creation:'
+//  // Include or exclude specific package paths using the following syntax as an example
+//  include 'com/examples/**'
+//  exclude 'com/proprietary/**'
+//}
+//
+//task javadocJar (dependsOn: javadoc, type: Jar) {
+//  description 'Assemble javadoc jar for Niagara module'
+//  classifier 'javadoc'
+//  from javadoc.destinationDir
+//
+//  doLast {
+//    project.copy {
+//      into { "$rootProject.ext.niagara_home/javadoc" }
+//      from archivePath
+//      rename archiveName, "${baseName}-javadoc.jar"
+//    }
+//  }
+//}
+//
+//import javax.tools.ToolProvider
+//import javax.tools.StandardLocation
+//
+//class Bajadoc extends DefaultTask {
+//
+//  def Iterable<String> options = []
+//  def Iterable<File> sources = []
+//  def Iterable<File> classpath = []
+//  def Class<?> doclet
+//
+//  @TaskAction
+//  void doc() {
+//    def tool = ToolProvider.getSystemDocumentationTool();
+//    def fm = tool.getStandardFileManager(null, null, null);
+//    fm.setLocation(StandardLocation.CLASS_PATH, classpath)
+//
+//    tool.getTask(null, fm, null, doclet, options, fm.getJavaFileObjectsFromFiles(sources)).call()
+//  }
+//}
+//
+//task generateBajadoc(type: Bajadoc) {
+//  doFirst {
+//    configurations.compile.each { f -> classpath << f }
+//    options << '-module' << project.niagaraModule.moduleName.toString()
+//    options << '-rtprofile' << project.niagaraModule.runtimeProfile.toString()
+//    options << '-description' << project.description.toString().replace('\'', '')
+//    options << '-vendor' << project.group.toString()
+//    options << '-vendorVersion' << project.version.toString()
+//    options << '-bajaVersion' << project.niagaraModule.bajaVersion.toString()
+//  }
+//}
+
+/*
+ * Copyright (c) 2014 Tridium Inc., All Rights Reserved
+ */
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+//Configure Niagara Plugins
+buildscript {
+  ["niagara_home"].each {
+    if (!rootProject.hasProperty(it)) {
+      def value = null
+      if (gradle.hasProperty(it)) {
+        value = gradle.getProperty(it)
+      } else if (System.hasProperty(it)) {
+        value = System.getProperty(it)
+      } else {
+        value = System.getenv(it)
+      }
+      if (value) {
+        rootProject.ext."$it" = value
+      } else {
+        throw new IllegalStateException("Could not determine value for $it. Set the environment variable or check that environment.gradle is being applied")
+      }
+    }
+  }
+
+  repositories {
+    flatDir {
+      dirs "${rootProject.ext.niagara_home}/bin/ext", "${rootProject.ext.niagara_home}/bin/ext/bcfips"
+    }
+    maven { url "${rootProject.ext.niagara_home}/etc/m2/repository" }
+    mavenCentral()
+  }
+
+  apply from: "${rootProject.ext.niagara_home}/etc/gradle/public_libraries.gradle"
+
+  dependencies {
+    classpath "${libraries.bctls}"
+    classpath "${libraries.bcpkix_fips}"
+    classpath "${libraries.bc_fips}"
+    classpath "${libraries.signing}"
+    classpath "${libraries.module}"
+    classpath "${libraries.niagararjs}"
+    classpath "${libraries.eclipse_core_commands}"
+    classpath "${libraries.eclipse_core_contenttype}"
+    classpath "${libraries.eclipse_core_expressions}"
+    classpath "${libraries.eclipse_core_filesystem}"
+    classpath "${libraries.eclipse_core_jobs}"
+    classpath "${libraries.eclipse_core_resources}"
+    classpath "${libraries.eclipse_core_runtime}"
+    classpath "${libraries.eclipse_equinox_app}"
+    classpath "${libraries.eclipse_equinox_common}"
+    classpath "${libraries.eclipse_equinox_preferences}"
+    classpath "${libraries.eclipse_equinox_registry}"
+    classpath "${libraries.eclipse_jdt}"
+    classpath "${libraries.eclipse_osgi}"
+    classpath "${libraries.eclipse_text}"
+  }
+}
+
+apply plugin: com.tridium.gradle.plugins.module.NiagaraModulePlugin
+apply plugin: com.tridium.gradle.plugins.rjs.NiagaraRjsPlugin
+
+ext {
+  libraries = [
+          testng: "org.testng:testng:6.8.8"
+  ]
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+  // Lint options
+  if (project.hasProperty('devLint')) {
+    options.compilerArgs += devLint.split(",").collect { "-Xlint:$it" }
+  }
+  else {
+    options.compilerArgs = [
+            "-Xlint:varargs",
+            "-Xlint:cast",
+            "-Xlint:classfile",
+            "-Xlint:dep-ann",
+            "-Xlint:divzero",
+            "-Xlint:empty",
+            "-Xlint:finally",
+            "-Xlint:overrides",
+            "-Xlint:path",
+            "-Xlint:processing",
+            "-Xlint:static",
+            "-Xlint:try",
+            "-Xlint:options",
+            "-Xlint:-fallthrough"
+    ]
+  }
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+configurations {
+  uberjar
+  testUberjar
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src'
+    }
+  }
+  test {
+    java {
+      srcDir 'test'
+    }
+  }
+}
+
+test {
+  useTestNG()
+  scanForTestClasses = false
+  testLogging.showStandardStreams = true
+  testLogging { exceptionFormat = 'full' }
+}
+
+afterEvaluate {
+  tasks.withType(RunTestExecutable).all { task ->
+    task.args = ["${project.niagaraModule.moduleName}"]
+  }
+}
+
+dependencies {
+  compile configurations.uberjar
+  testCompile libraries.testng
+  niagaraModuleTestCompile project, "Tridium:test-wb:4.0.0", configurations.testUberjar
+}
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+
+  flatDir {
+    dirs "${rootProject.ext.niagara_home}/bin/ext"
+  }
+  flatDir {
+    dirs "${rootProject.ext.niagara_home}/modules"
+  }
+  flatDir {
+    dirs "${rootProject.ext.niagara_home}/gradle/plugins"
+  }
+}
+
+jar.configure {
+  manifest {
+    attributes 'Implementation-Vendor': project.group, 'Implementation-Version': project.version
+  }
+
+  duplicatesStrategy = "exclude"
+  from {
+    configurations.uberjar.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+
+  from 'module.palette'
+  from('module.lexicon') {
+    rename 'module.lexicon', "${project.name}.lexicon"
+  }
+}
+
+moduleTestJar.configure {
+  duplicatesStrategy = "exclude"
+  from {
+    configurations.testUberjar.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+javadoc.configure {
+  failOnError false
+  options.tags 'creation:a:Creation:'
+  // Include or exclude specific package paths using the following syntax as an example
+  include 'com/examples/**'
+  exclude 'com/proprietary/**'
+}
+
+task javadocJar (dependsOn: javadoc, type: Jar) {
+  description 'Assemble javadoc jar for Niagara module'
+  classifier 'javadoc'
+  from javadoc.destinationDir
+
+  doLast {
+    project.copy {
+      into { "$rootProject.ext.niagara_home/javadoc" }
+      from archivePath
+      rename archiveName, "${baseName}-javadoc.jar"
+    }
+  }
+}
+
+import javax.tools.ToolProvider
+import javax.tools.StandardLocation
+
+class Bajadoc extends DefaultTask {
+
+  Iterable<String> options = []
+    Iterable<File> sources = []
+    Iterable<File> classpath = []
+    Class<?> doclet
+
+  @TaskAction
+  void doc() {
+    def tool = ToolProvider.getSystemDocumentationTool()
+      def fm = tool.getStandardFileManager(null, null, null)
+      fm.setLocation(StandardLocation.CLASS_PATH, classpath)
+
+    tool.getTask(null, fm, null, doclet, options, fm.getJavaFileObjectsFromFiles(sources)).call()
+  }
+}
+
+task generateBajadoc(type: Bajadoc) {
+  doFirst {
+    configurations.compile.each { f -> classpath << f }
+    options << '-module' << project.niagaraModule.moduleName.toString()
+    options << '-rtprofile' << project.niagaraModule.runtimeProfile.toString()
+    options << '-description' << project.description.toString().replace('\'', '')
+    options << '-vendor' << project.group.toString()
+    options << '-vendorVersion' << project.version.toString()
+    options << '-bajaVersion' << project.niagaraModule.bajaVersion.toString()
+  }
+}
+
+
+configurations {
+  testArtifacts.extendsFrom niagaraModuleTestCompile
+}
+artifacts {
+  testArtifacts moduleTestJar
+}
+

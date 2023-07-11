@@ -1,0 +1,39 @@
+/*
+ * Copyright 2019 bitpool, All Rights Reserved.
+ */
+description = "MQTT Pub/Sub Driver"
+
+ext {
+  name            = "MQTT"
+  project.group   = "bitpool"
+  project.version = "1.002.002"
+}
+
+niagaraModule {
+  preferredSymbol = "bMqtt"
+  moduleName = "bMqtt"
+  runtimeProfile = "rt"
+}
+
+dependencies {
+  compile "Tridium:baja:4.0"
+  compile "Tridium:bajaui-wb:-"
+  compile "Tridium:nre:4.0"
+  compile "Tridium:alarm-rt:4.0"
+  compile "Tridium:driver-rt:4.0"
+  compile "Tridium:basicDriver-rt:4.0"
+  compile "Tridium:control-rt:4.0"
+  compile "Tridium:ndriver-rt:4.0"
+  compile "Tridium:platform-rt:4.0"
+  compile "Tridium:hierarchy-rt:4.0"
+  compile group: 'org.bouncycastle', name: 'bcpkix-jdk14', version: '1.65'
+  uberjar files('ext/mqtt-client-0.4.0.jar')
+  uberjar files('ext/accessors-smart-1.1.jar', 'ext/asm-5.0.3.jar', 'ext/json-path-2.2.0.jar', 'ext/json-smart-2.2.1.jar', 'ext/slf4j-api-1.7.16.jar')
+}
+repositories {
+    mavenCentral()
+}
+//moduleTestJar {
+//  from('srcTest') {
+//  }
+//}
