@@ -4,6 +4,6 @@
 /* Vendor Configuration File */
 group = 'BP'
 
-def moduleVersion = '001.002.002'
+def moduleVersion = '001.002.004'
 def moduleVersionPatch = [:]
 version = "${moduleVersion}${moduleVersionPatch.get(project.name, '')}"

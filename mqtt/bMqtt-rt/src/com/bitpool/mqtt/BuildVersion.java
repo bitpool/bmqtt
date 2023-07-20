@@ -4,7 +4,7 @@ public class BuildVersion {
     //https://stackoverflow.com/questions/29265750/intellij-idea-can-i-have-automatically-incremented-build-version-number
     public static final String VERSION_NUMBER   = "1";
     public static final String FEATURE_NUMBER   = "002";
-    public static final String BUILD_NUMBER = "002";
+    public static final String BUILD_NUMBER = "004";
 
     // --------------------------------------------------------------------------------
     // UPDATE *-rt.gradle on changed version number so it can be seen in Software Manager

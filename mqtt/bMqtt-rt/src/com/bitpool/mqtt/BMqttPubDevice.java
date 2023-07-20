@@ -1057,19 +1057,22 @@ public class BMqttPubDevice
 
                       // hashTopicsCovJson.put(publishTopic, jO.toString());
                       //System.out.println("MQTT Details: "+mqttDetails);
-                      try {
+                        try {
+                          // Add the publish details
+                          JSONObject combinedJson = deviceStatusJSON1();
+                          JSONObject publishDetailsJson = new JSONObject();
+                          publishDetailsJson.put("msg", "PUBLISH-COUNT");
+                          JSONArray publishResults = new JSONArray();
+                          publishResults.put(new JSONObject().put("n", "pointsToPublish").put("v", hashTopicsCovJson.size()));
+                          publishResults.put(new JSONObject().put("n", "pointCount").put("v", countOuts));
+                          publishDetailsJson.put("results", publishResults);
 
+                          combinedJson.getJSONArray("messages").put(publishDetailsJson);
 
-                        mqttPublishDetailsJson.put("Points to Publish", hashTopicsCovJson.size());
-                        mqttPublishDetailsJson.put("Point Count", countOuts);
+                          String sysTopic = getPublishTopicPath() + "/EDGE_DEVICES/" + Sys.getHostId() + "/SYSTEM";
+                          mqttDetails.put(formatTopic(sysTopic), combinedJson.toString());
 
-                        mqttDetailsJson.put("Publish Count", mqttPublishDetailsJson);
-                        // Update in convertOrdToTopic to ensure correct format to broker
-                        String sysTopic = getPublishTopicPath() + "/EDGE_DEVICES/" + Sys.getHostId() + "/SYSTEM";
-                        //System.out.println("System topic is: " + sysTopic);
-                        mqttDetails.put(formatTopic(sysTopic), mqttDetailsJson.toString());
-                        // publish mqtt detail payload
-                        mqttPublishMessageBlock(mqttDetails, true, false);
+                          mqttPublishMessageBlock(mqttDetails, true, false);
                       }
                       catch (Exception e) {
                         System.out.println(e);
@@ -1220,22 +1223,22 @@ public class BMqttPubDevice
                       }
                       mqttPublishMessageBlock(hashTopicsCovJson, true, false);
                       debugOut("Published: " + hashTopicsCovJson.size() + " <" + getBrokerAddress() + "><OutputFormat=JSON>", 4);
-                      // Build mqtt detail payload
 
-                      // hashTopicsCovJson.put(publishTopic, jO.toString());
-                      //System.out.println("MQTT Details: "+mqttDetails);
                       try {
+                        // Add the publish details
+                        JSONObject combinedJson = deviceStatusJSON1();
+                        JSONObject publishDetailsJson = new JSONObject();
+                        publishDetailsJson.put("msg", "PUBLISH-COUNT");
+                        JSONArray publishResults = new JSONArray();
+                        publishResults.put(new JSONObject().put("n", "pointsToPublish").put("v", hashTopicsCovJson.size()));
+                        publishResults.put(new JSONObject().put("n", "pointCount").put("v", countOuts));
+                        publishDetailsJson.put("results", publishResults);
 
+                        combinedJson.getJSONArray("messages").put(publishDetailsJson);
 
-                        mqttPublishDetailsJson.put("Points to Publish", hashTopicsCovJson.size());
-                        mqttPublishDetailsJson.put("Point Count", countOuts);
-
-                        mqttDetailsJson.put("Publish Count", mqttPublishDetailsJson);
-                        // Update in convertOrdToTopic to ensure correct format to broker
                         String sysTopic = getPublishTopicPath() + "/EDGE_DEVICES/" + Sys.getHostId() + "/SYSTEM";
-                        //System.out.println("System topic is: " + sysTopic);
-                        mqttDetails.put(formatTopic(sysTopic), mqttDetailsJson.toString());
-                        // publish mqtt detail payload
+                        mqttDetails.put(formatTopic(sysTopic), combinedJson.toString());
+
                         mqttPublishMessageBlock(mqttDetails, true, false);
                       }
                       catch (Exception e) {
@@ -1281,17 +1284,41 @@ public class BMqttPubDevice
 
                     // hashTopicsCovJson.put(publishTopic, jO.toString());
                     //System.out.println("MQTT Details: "+mqttDetails);
+//                    try {
+//
+//                      mqttPublishDetailsJson.put("Points to Publish", hashTopicsCovDiscrete.size());
+//                      mqttPublishDetailsJson.put("Point Count", countCovOuts);
+//
+//                      mqttDetailsJson.put("Publish Count", mqttPublishDetailsJson);
+//                      // Update in convertOrdToTopic to ensure correct format to broker
+//                      String sysTopic = getPublishTopicPath() + "/EDGE_DEVICES/" + Sys.getHostId() + "/SYSTEM";
+//                      //System.out.println("System topic is: " + sysTopic);
+//                      mqttDetails.put(formatTopic(sysTopic), mqttDetailsJson.toString());
+//                      // publish mqtt detail payload
+//                      mqttPublishMessageBlock(mqttDetails, true, false);
+//                    }
+//                    catch (Exception e) {
+//                      System.out.println(e);
+//                    }
+                    // Build mqtt detail payload
+
+                    // hashTopicsCovJson.put(publishTopic, jO.toString());
+                    //System.out.println("MQTT Details: "+mqttDetails);
                     try {
+                      // Add the publish details
+                      JSONObject combinedJson = deviceStatusJSON1();
+                      JSONObject publishDetailsJson = new JSONObject();
+                      publishDetailsJson.put("msg", "PUBLISH-COUNT");
+                      JSONArray publishResults = new JSONArray();
+                      publishResults.put(new JSONObject().put("n", "pointsToPublish").put("v", hashTopicsCovDiscrete.size()));
+                      publishResults.put(new JSONObject().put("n", "pointCount").put("v", countCovOuts));
+                      publishDetailsJson.put("results", publishResults);
 
-                      mqttPublishDetailsJson.put("Points to Publish", hashTopicsCovDiscrete.size());
-                      mqttPublishDetailsJson.put("Point Count", countCovOuts);
+                      combinedJson.getJSONArray("messages").put(publishDetailsJson);
 
-                      mqttDetailsJson.put("Publish Count", mqttPublishDetailsJson);
-                      // Update in convertOrdToTopic to ensure correct format to broker
                       String sysTopic = getPublishTopicPath() + "/EDGE_DEVICES/" + Sys.getHostId() + "/SYSTEM";
-                      //System.out.println("System topic is: " + sysTopic);
-                      mqttDetails.put(formatTopic(sysTopic), mqttDetailsJson.toString());
-                      // publish mqtt detail payload
+                      mqttDetails.put(formatTopic(sysTopic), combinedJson.toString());
+
                       mqttPublishMessageBlock(mqttDetails, true, false);
                     }
                     catch (Exception e) {
@@ -1824,41 +1851,87 @@ public class BMqttPubDevice
         return (BMqttNetwork) getNetwork();
     }
 
-  private JSONObject deviceStatusJSON(){
+  private JSONObject deviceStatusJSON1() {
 
-    JSONObject mqttDetailsJson = new JSONObject();
-    JSONObject hostDetailsJson = new JSONObject();
-    JSONObject systemDetailsJson = new JSONObject();
-//    JSONObject driverDetailsJson = new JSONObject();
-
+    JSONObject combinedJson = new JSONObject();
+    JSONArray messagesArray = new JSONArray();
 
     String hostName = Sys.getHostName();
     String hostId = Sys.getHostId();
     String stationName = Sys.getStation().getStationName();
-    String deviceName = this.getName();
     String sysTime = BAbsTime.now().toString();
 
-
-    hostDetailsJson.put("Host Name", hostName);
-    hostDetailsJson.put("Host ID", hostId);
-    hostDetailsJson.put("Station Name", stationName);
-    hostDetailsJson.put("System Time", sysTime);
-
-
-    Integer cpuUsage =  Nre.getPlatform().getCpuUsage();
-    Integer memUsage =  Nre.getPlatform().getMemoryUsage();
-    Integer memTotalUsage =  Nre.getPlatform().getTotalMemory();
-    Integer iMemPctUsed = 0 ;
+    Integer cpuUsage = Nre.getPlatform().getCpuUsage();
+    Integer memUsage = Nre.getPlatform().getMemoryUsage();
+    Integer memTotalUsage = Nre.getPlatform().getTotalMemory();
+    Integer iMemPctUsed = 0;
     float memPctUsed;
 
-    if(memTotalUsage>0 && memUsage <= memTotalUsage){
+    if (memTotalUsage > 0 && memUsage <= memTotalUsage) {
       BFloat a = BFloat.make(memUsage.toString());
       BFloat b = BFloat.make(memTotalUsage.toString());
       memPctUsed = (a.getFloat() / b.getFloat()) * 100;
       iMemPctUsed = BFloat.make(memPctUsed).getInt();
     }
 
-    //String mem = iMemPctUsed.toString().getBytes();
+    String mem = iMemPctUsed.toString();
+
+    // Host details JSON
+    JSONObject hostDetailsJson = new JSONObject();
+    hostDetailsJson.put("msg", "HOST-DETAILS");
+    JSONArray hostResults = new JSONArray();
+    hostResults.put(new JSONObject().put("n", "hostName").put("v", hostName));
+    hostResults.put(new JSONObject().put("n", "hostId").put("v", hostId));
+    hostResults.put(new JSONObject().put("n", "stationName").put("v", stationName));
+    hostResults.put(new JSONObject().put("n", "systemTime").put("v", sysTime));
+    hostDetailsJson.put("results", hostResults);
+    messagesArray.put(hostDetailsJson);
+
+    // System details JSON
+    JSONObject systemDetailsJson = new JSONObject();
+    systemDetailsJson.put("msg", "SYSTEM-DETAILS");
+    JSONArray systemResults = new JSONArray();
+    systemResults.put(new JSONObject().put("n", "cpuUsage").put("v", cpuUsage.toString()));
+    systemResults.put(new JSONObject().put("n", "memoryUsage").put("v", memUsage.toString()));
+    systemResults.put(new JSONObject().put("n", "memoryTotalUsage").put("v", memTotalUsage.toString()));
+    systemResults.put(new JSONObject().put("n", "memoryUsagePercentage").put("v", mem));
+    systemDetailsJson.put("results", systemResults);
+    messagesArray.put(systemDetailsJson);
+
+    combinedJson.put("messages", messagesArray);
+
+    return combinedJson;
+  }
+
+  private JSONObject deviceStatusJSON(){
+
+    JSONObject mqttDetailsJson = new JSONObject();
+    JSONObject hostDetailsJson = new JSONObject();
+    JSONObject systemDetailsJson = new JSONObject();
+
+    String hostName = Sys.getHostName();
+    String hostId = Sys.getHostId();
+    String stationName = Sys.getStation().getStationName();
+    String sysTime = BAbsTime.now().toString();
+
+    hostDetailsJson.put("Host Name", hostName);
+    hostDetailsJson.put("Host ID", hostId);
+    hostDetailsJson.put("Station Name", stationName);
+    hostDetailsJson.put("System Time", sysTime);
+
+    Integer cpuUsage = Nre.getPlatform().getCpuUsage();
+    Integer memUsage = Nre.getPlatform().getMemoryUsage();
+    Integer memTotalUsage = Nre.getPlatform().getTotalMemory();
+    Integer iMemPctUsed = 0;
+    float memPctUsed;
+
+    if (memTotalUsage > 0 && memUsage <= memTotalUsage) {
+      BFloat a = BFloat.make(memUsage.toString());
+      BFloat b = BFloat.make(memTotalUsage.toString());
+      memPctUsed = (a.getFloat() / b.getFloat()) * 100;
+      iMemPctUsed = BFloat.make(memPctUsed).getInt();
+    }
+
     String mem = iMemPctUsed.toString();
 
     systemDetailsJson.put("CPU Usage", cpuUsage);
@@ -1866,29 +1939,10 @@ public class BMqttPubDevice
     systemDetailsJson.put("Memory Toal Usage", memTotalUsage);
     systemDetailsJson.put("Memory Usage Percentage", mem);
 
-    // Get all th slots of the mqtt driver and output as topic/value pairs into points tree
-//    Property[] aryProps = this.getFrozenPropertiesArray();
-//    if (aryProps.length > 0) {
-//      for (int i = 0; i < aryProps.length; i++) {
-//        Property prop = aryProps[i];
-//        String propName = SlotPath.unescape(prop.getName());
-//        BValue bV = this.get(prop);
-//        String text = bV.toDataValue().toString();
-////        mqttMsg = new MqttMessage();
-////        mqttMsg.setPayload(text.getBytes());
-////        m_MqttSubConn.injectMessage(topicPrefix + "/" + propName + "/", mqttMsg);
-//
-//        driverDetailsJson.put(propName, text);
-//      }
-    //}
+    mqttDetailsJson.put("Host Details", hostDetailsJson);
+    mqttDetailsJson.put("Ssytem Details", systemDetailsJson);
 
-    // hashTopicsCovJson.put(publishTopic, jO.toString());
-    //System.out.println("MQTT Details: "+mqttDetails);
-      mqttDetailsJson.put("Host Details", hostDetailsJson);
-      mqttDetailsJson.put("Ssytem Details", systemDetailsJson);
-      //mqttDetailsJson.put("Device Details", driverDetailsJson);
-
-      return mqttDetailsJson;
+    return mqttDetailsJson;
   }
 
     private String formatTopic(String topic){

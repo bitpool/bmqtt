@@ -6,7 +6,7 @@ description = "MQTT Pub/Sub Driver"
 ext {
   name            = "MQTT"
   project.group   = "bitpool"
-  project.version = "1.002.002"
+  project.version = "1.002.004"
 }
 
 niagaraModule {
